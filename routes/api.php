@@ -11,3 +11,19 @@ Route::get('/user', function (Request $request) {
 // Inventory lookup route
 Route::get('/inventory/{sku_id}', [InventoryController::class, 'getItem'])
      ->name('inventory.getItem');
+
+// Route to get all items in the inventory
+Route::get('/inventory', [InventoryController::class, 'getAllItems'])
+     ->name('inventory.getAllItems');
+
+// Route to add a new item to the inventory
+Route::post('/inventory', [InventoryController::class, 'addItem'])
+     ->name('inventory.addItem');
+
+// Route to update an existing item in the inventory
+Route::put('/inventory/{sku_id}', [InventoryController::class, 'updateItem'])
+     ->name('inventory.updateItem');
+
+// Route to delete an item from the inventory
+Route::delete('/inventory/{sku_id}', [InventoryController::class, 'deleteItem'])
+     ->name('inventory.deleteItem');
