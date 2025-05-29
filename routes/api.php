@@ -8,6 +8,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// Route to get list of all items quantity less than reorder level
+Route::get('/inventory/low-stock', [InventoryController::class, 'getLowStockItems'])
+     ->name('inventory.getLowStockItems');
+
 // Inventory lookup route
 Route::get('/inventory/{sku_id}', [InventoryController::class, 'getItem'])
      ->name('inventory.getItem');

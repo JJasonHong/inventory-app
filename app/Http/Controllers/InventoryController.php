@@ -55,6 +55,7 @@ class InventoryController extends Controller
             'sku'      => 'required|string|max:255|unique:inventories',
             'name'     => 'required|string|max:255',
             'quantity' => 'required|integer|min:0',
+            'reorder_level' => 'required|integer|min:0',
         ]);
 
         $item = Inventory::create($request->all());
@@ -82,6 +83,7 @@ class InventoryController extends Controller
         $request->validate([
             'name'     => 'sometimes|required|string|max:255',
             'quantity' => 'sometimes|required|integer|min:0',
+            'reorder_level' => 'sometimes|required|integer|min:0',
         ]);
 
         $item->update($request->all());
@@ -112,5 +114,17 @@ class InventoryController extends Controller
         ]);
     }
 
-    
+    /**
+     * returns a list of all items whose quantity is below their reorder level
+     */
+    public function getLowStockItems()
+    {
+        // compare the `quantity` column against each row’s `reorder_level`
+        $lowStockItems = Inventory::whereColumn('quantity', '<', 'reorder_level')
+                                  ->get();
+
+        return response()->json($lowStockItems);
+    }
+
+
 }
